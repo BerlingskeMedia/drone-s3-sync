@@ -84,11 +84,10 @@ steps:
     settings:
       mirror:
         from_secret: docker_proxy_mirror
-      auto_tag_suffix: arm
-      auto_tag: true
       purge: false
       tags:
         - ${CI_COMMIT_SHA}
+        - "${DRONE_DEPLOY_TO:-${DRONE_TAG##v}}"
       registry:
         from_secret: registry
       repo:
@@ -106,9 +105,6 @@ trigger:
     include:
       - promote
       - tag
-
-depends_on:
-  - testing
 
 ---
 kind: "secret"
